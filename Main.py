@@ -47,9 +47,10 @@ class Isduplicate:
         print(e)
         counter = counter + 2
 
-    df.drop(df.columns[df.columns.str.contains('Unnamed', case=False)], axis=1)
+    #df.drop(df.columns[df.columns.str.contains('Unnamed', case=False)], axis=1)
 
     print(df)
+
 
     #saves DataFrame to csv file
     df.to_csv(r'C:\Users\jacka\OneDrive\Documents\outputs.csv')
