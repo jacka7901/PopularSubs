@@ -34,7 +34,6 @@ class Isduplicate:
         e = e[:-1]
 
 
-
         if e in df['Subreddit'].values:
             #adds 1 to Appearances if the subreddit is already in the DF
             df.loc[df['Subreddit'] == e, 'Appearances'] += 1
@@ -42,18 +41,17 @@ class Isduplicate:
             #adds new row with the subreddit name and sets the amount of appearances to 1.
             df = df.append({'Subreddit': e, 'Appearances': 1}, ignore_index=True)
 
-        df.reset_index(inplace=True, drop=True)
+
 
         print(e)
         counter = counter + 2
-
-    #df.drop(df.columns[df.columns.str.contains('Unnamed', case=False)], axis=1)
 
     print(df)
 
 
     #saves DataFrame to csv file
-    df.to_csv(r'C:\Users\jacka\OneDrive\Documents\outputs.csv')
+
+    df.to_csv(r'C:\Users\jacka\OneDrive\Documents\outputs.csv', index=False)
 
     text_file.close()
     browser.close()
