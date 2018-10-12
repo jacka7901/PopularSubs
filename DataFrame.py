@@ -3,7 +3,10 @@ import pandas as pd
 
 
 class DataFrame:
+
+    #initializing elem so that the loop can run
     elem = ""
+    #loop prevents crashing due to the old version of reddit loading
     while len(elem) == 0:
         browser = webdriver.Chrome(executable_path=r'C:\Users\jacka\Downloads\chromedriver_win32\chromedriver.exe')
 
