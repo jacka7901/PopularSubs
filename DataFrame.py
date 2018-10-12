@@ -3,12 +3,17 @@ import pandas as pd
 
 
 class DataFrame:
-    browser = webdriver.Chrome(executable_path=r'C:\Users\jacka\Downloads\chromedriver_win32\chromedriver.exe')
+    elem = ""
+    while len(elem) == 0:
+        browser = webdriver.Chrome(executable_path=r'C:\Users\jacka\Downloads\chromedriver_win32\chromedriver.exe')
 
-    browser.get("https://www.reddit.com/")
+        browser.get("https://www.reddit.com/")
 
-    # grabs the html tag for the subreddit name
-    elem = browser.find_elements_by_css_selector("a[data-click-id='subreddit']")
+        # grabs the html tag for the subreddit name
+        elem = browser.find_elements_by_css_selector("a[data-click-id='subreddit']")
+
+
+
 
     # output locations
     Location = r'C:\Users\jacka\OneDrive\Documents\outputs.csv'
@@ -17,8 +22,7 @@ class DataFrame:
 
     print(len(elem))
 
-
-    def updateDataFrame(self):
+    def update_df(self):
         counter = 0
         while counter < 50:
 
@@ -35,7 +39,7 @@ class DataFrame:
                 self.df = self.df.append({'Subreddit': e, 'Appearances': 1}, ignore_index=True)
 
             print(e)
-            #because there are 2 html tags of the same subreddit name, we have to increment by 2 each time.
+            # because there are 2 html tags of the same subreddit name, we have to increment by 2 each time.
             counter = counter + 2
 
     def save(self):
@@ -46,7 +50,7 @@ class DataFrame:
 class Main:
     dataframe = DataFrame()
 
-    dataframe.updateDataFrame()
+    dataframe.update_df()
     print(dataframe.df)
     dataframe.save()
 
