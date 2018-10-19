@@ -3,7 +3,11 @@ from flask import Flask, render_template
 import pandas as pd
 import time
 
-time.sleep(30)
+
+
+
+
+
 elem = ""
 #loop prevents crashing due to the old version of reddit loading
 while not elem:
@@ -34,16 +38,15 @@ while counter < 50:
 df.sort_values(by='Appearances', ascending=False,  inplace=True)
 print(df)
 df.to_csv(Location, index=False)
-
-app = Flask(__name__)
-
 browser.close()
 
+app = Flask(__name__)
 @app.route('/')
 def index():
-    return render_template("PopularSubs.html", dataframe = df)
-
+    return render_template("Pop.html", dataframe = df)
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
+
+
 
 
