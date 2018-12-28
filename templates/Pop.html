@@ -11,10 +11,8 @@
     <link rel="stylesheet" type="text/css" href="static/css/templatemo-style.css">
     
     <title>PopularSubs</title>
-<!--
-Catalyst Template
-http://www.templatemo.com/tm-499-catalyst
--->
+
+
 </head>
 
 <body>
@@ -27,15 +25,32 @@ http://www.templatemo.com/tm-499-catalyst
                
            </div>
            <div class="col-lg-6 col-md-6 content-item content-item-1 background tm-white-translucent-bg">
-               <h2 class="main-title text-center dark-blue-text">ADfasdf</h2>
+               <h2 class="main-title text-center dark-blue-text">Jack Arnold</h2>
                <p>
-                   {% block content %} {{ dataframe.to_html(classes="table table-striped") | safe}} {% endblock %}
+
+
                </p>
            </div>
        </section>
 
 
+        <table>
+            <tr>
+                <td>
+                    {% block content %} {{ dataframe1.to_html(classes="table table-dark") | safe}} {% endblock %}               </td>
+                <td>
+                    {% block content1 %} {{ dataframe2.to_html(classes="table table-dark") | safe}} {% endblock %}
+                <td>
+                    {% block content2 %} {{ dataframe3.to_html(classes="table table-dark") | safe}} {% endblock %}
+            </tr>
+        </table>
+
+
       <section class="col-md-12 content padding tm-float-section tm-section-3">
+
+
+
+
 
       <div class="col-lg-6 col-md-6 content-item tm-black-translucent-bg"></div>
       <div class="col-lg-6 col-md-6 content-item tm-white-translucent-bg"></div>
@@ -108,15 +123,14 @@ http://www.templatemo.com/tm-499-catalyst
 
 <div class="text-center footer">
 	<div class="container">
-		Copyright &copy; <span class="tm-current-year">2017</span> Company 
+		Copyright &copy; <span class="tm-current-year">2018</span> Jack Arnold
         
-        | Design: <a href="http://www.google.com/+templatemo" target="_parent">templatemo</a>
+
     </div>
 </div>
 
 <script>
 
-// Write current year in copyright text.
   document.getElementsByClassName("tm-current-year").value = new Date().getFullYear();
 
 </script>
