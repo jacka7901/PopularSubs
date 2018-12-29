@@ -12,6 +12,18 @@
     
     <title>PopularSubs</title>
 
+    <style>
+        table#t01{
+            background-color: #2F2F2F;
+            color: white;
+            opacity: 0.9;
+            border: 2px white;
+            }
+        th{
+            background-color: #4F42CF;
+            color: white;
+        }
+    </style>
 
 </head>
 
@@ -34,7 +46,8 @@
        </section>
 
 
-        <table>
+        <table id = "t01">
+
             <tr>
                 <td>
                     {% block content %} {{ dataframe1.to_html(classes="table table-dark") | safe}} {% endblock %}               </td>

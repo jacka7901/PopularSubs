@@ -1,8 +1,7 @@
 from selenium import webdriver
 from flask import Flask, render_template
 import pandas as pd
-import time
-
+import numpy as np
 elem = ""
 #loop prevents crashing due to the old version of reddit loading
 while not elem:
@@ -11,8 +10,7 @@ while not elem:
     elem = browser.find_elements_by_css_selector("a[data-click-id='subreddit']")
 
 Location = r'C:\Users\jacka\OneDrive\Documents\outputs.csv'
-df = pd.read_csv(Location)
-print(len(elem))
+df = pd.read_csv(Location, index_col=False)
 
 counter = 0
 while counter < 50:
@@ -30,16 +28,25 @@ while counter < 50:
     counter = counter + 2
 
 
+
+
 df.sort_values(by='Appearances', ascending=False,  inplace=True)
+# resets the indexes to display rankings correctly.
+df.reset_index(drop=True, inplace=True)
+df.to_csv(Location, index=False)
+# after writing the data to the csv, the index is set to start at 1 instead of 0, for design purposes.
+df.index = np.arange( 1, len(df) + 1)
+
 
 df1 = df.loc[:33, :]
-df2 = df.loc[33:66, :]
-df3 = df.loc[66:98, :]
+df2 = df.loc[34:66, :]
+df3 = df.loc[67:99, :]
 
+print(df)
 print(df1)
 print(df2)
 print(df3)
-df.to_csv(Location, index=False)
+
 browser.close()
 
 app = Flask(__name__)
