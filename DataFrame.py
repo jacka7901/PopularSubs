@@ -3,6 +3,7 @@ from flask import Flask, render_template
 import pandas as pd
 import numpy as np
 elem = ""
+
 #loop prevents crashing due to the old version of reddit loading
 while not elem:
     browser = webdriver.Chrome(executable_path=r'C:\Users\jacka\Downloads\chromedriver_win32\chromedriver.exe')
@@ -28,15 +29,12 @@ while counter < 50:
     counter = counter + 2
 
 
-
-
 df.sort_values(by='Appearances', ascending=False,  inplace=True)
 # resets the indexes to display rankings correctly.
 df.reset_index(drop=True, inplace=True)
 df.to_csv(Location, index=False)
 # after writing the data to the csv, the index is set to start at 1 instead of 0, for design purposes.
 df.index = np.arange( 1, len(df) + 1)
-
 
 df1 = df.loc[:33, :]
 df2 = df.loc[34:66, :]

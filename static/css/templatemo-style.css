@@ -1,14 +1,4 @@
-/* 
 
-Catalyst Template
-
-http://www.templatemo.com/tm-499-catalyst
-
-
-
-Pink #cc3467
-
-*/
 
 a,
 a:hover,
@@ -158,7 +148,7 @@ p {
 
 .tm-float-section-header {
     position: absolute;
-    background-color: #cc3467;
+    background-color: #0442B9;
     width: 90%;
     left: 0;
     right: 0;
@@ -346,11 +336,13 @@ h1 { font-size: 54px; }
     .tm-float-section-header, 
     .tm-float-section-body {
         position: static;
+        background-color: #0442B9;
     }
 
     .tm-float-section-header {
         padding-top: 30px;
         height: 200px;
+        background-color: #0442B9;
     }
 
     .tm-float-section-body { margin-top: -110px; }
@@ -360,7 +352,10 @@ h1 { font-size: 54px; }
         margin-bottom: 10px;
     }
 
-    .tm-section-3-header { margin-top: 0; }
+    .tm-section-3-header {
+        margin-top: 0;
+        background-color: #0442B9;
+     }
 }
 
 @media screen and (max-width:767px){
@@ -383,7 +378,11 @@ h1 { font-size: 54px; }
 }
 
 @media screen and (max-width: 460px) {
-    .tm-float-section-header { height: 220px; }
+    .tm-float-section-header {
+        height: 220px;
+        background-color: #0442B9;
+        color: #0442B9;
+       }
     .tm-float-section-body,
     .tm-float-section-body .col-lg-12 {
         padding-left: 0;
