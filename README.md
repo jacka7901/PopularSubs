@@ -8,5 +8,6 @@ PopularSubs is a program that grabs the top 25 subreddits from the Reddit.com ho
 - [ ] Run on a cloud server 24/7
 - [x] Fix column allignments
 - [x] Only display top 100 subreddits
+- [ ] Countdown until next update
 
 
