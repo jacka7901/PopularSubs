@@ -10,4 +10,13 @@ PopularSubs is a program that grabs the top 25 subreddits from the Reddit.com ho
 - [x] Only display top 100 subreddits
 - [ ] Countdown until next update
 
+### **What I have learned / technologies used** 
+- Python skills
+- The Flask web-framework
+- Selenium- a web automation framework
+- Pandas- a Python library used for data manipulation and analysis.
+- Multithreading
+- HTML/CSS
+- How web hosting works (using Heroku.com)
+- AWS S3 to store data
 
