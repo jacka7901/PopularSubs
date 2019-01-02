@@ -6,7 +6,8 @@ import time
 import threading
 import boto3
 import s3fs
-from keys import *
+import os
+from selenium.webdriver.chrome.options import Options
 
 
 
@@ -16,7 +17,12 @@ def updatetable():
 
         #loop prevents crashing due to the old version of reddit loading
         while not elem:
-            browser = webdriver.Chrome(executable_path=r'C:\Users\jacka\Downloads\chromedriver_win32\chromedriver.exe')
+            chrome_options = Options()
+            chrome_options.binary_location = os.environ['GOOGLE_CHROME_BIN']
+            chrome_options.add_argument('--disable-gpu')
+            chrome_options.add_argument('--no-sandbox')
+            browser = webdriver.Chrome(executable_path= os.environ['CHROMEDRIVER_PATH, chrome_options=chrome_options'])
+            #browser = webdriver.Chrome(executable_path=r'C:\Users\jacka\Downloads\chromedriver_win32\chromedriver.exe')
             browser.get("https://www.reddit.com/")
             elem = browser.find_elements_by_css_selector("a[data-click-id='subreddit']")
 
@@ -24,7 +30,7 @@ def updatetable():
         objectkey = 'outputs.csv'
         bucketname = 'popularsubs'
         #reading and converting the .csv file in the s3 bucket to a dataframe
-        s3 = boto3.client('s3', aws_access_key_id=awsacesskey, aws_secret_access_key=awssecretkey)
+        s3 = boto3.client('s3', aws_access_key_id=os.environ['AWS_ACCESS_KEY_ID'], aws_secret_access_key= os.environ['AWS_SECRET_ACCESS_KEY'])
         read_file = s3.get_object(Bucket=bucketname, Key=objectkey)
         df = pd.read_csv(read_file['Body'], index_col= False)
 
@@ -49,7 +55,7 @@ def updatetable():
         df.reset_index(drop=True, inplace=True)
         #writing to the .csv file in the s3 bucket
         bytes_to_write = df.to_csv(None, index=False).encode()
-        fs = s3fs.S3FileSystem(key=awsacesskey, secret=awssecretkey)
+        fs = s3fs.S3FileSystem(key=os.environ['AWS_ACCESS_KEY_ID'], secret=os.environ['AWS_SECRET_ACCESS_KEY'])
         with fs.open('s3://popularsubs/outputs.csv', 'wb') as f:
             f.write(bytes_to_write)
 
