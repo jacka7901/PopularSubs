@@ -2,59 +2,85 @@ from selenium import webdriver
 from flask import Flask, render_template
 import pandas as pd
 import numpy as np
-elem = ""
-
-#loop prevents crashing due to the old version of reddit loading
-while not elem:
-    browser = webdriver.Chrome(executable_path=r'C:\Users\jacka\Downloads\chromedriver_win32\chromedriver.exe')
-    browser.get("https://www.reddit.com/")
-    elem = browser.find_elements_by_css_selector("a[data-click-id='subreddit']")
-
-Location = r'C:\Users\jacka\OneDrive\Documents\outputs.csv'
-df = pd.read_csv(Location, index_col=False)
-
-counter = 0
-while counter < 50:
-    e = str(elem[counter].get_attribute("href"))
-    e = e.replace("https://www.reddit.com/r/", "")
-    e = e[:-1]
-
-    if e in df['Subreddit'].values:
-        df.loc[df['Subreddit'] == e, 'Appearances'] += 1
-    else:
-        df = df.append({'Subreddit': e, 'Appearances': 1}, ignore_index=True)
-
-    print(e)
-    # because there are 2 html tags of the same subreddit name, we have to increment by 2 each time.
-    counter = counter + 2
+import time
+import threading
+from io import StringIO
+import boto3
+import s3fs
 
 
-df.sort_values(by='Appearances', ascending=False,  inplace=True)
-# resets the indexes to display rankings correctly.
-df.reset_index(drop=True, inplace=True)
-df.to_csv(Location, index=False)
-# after writing the data to the csv, the index is set to start at 1 instead of 0, for design purposes.
-df.index = np.arange( 1, len(df) + 1)
 
-df1 = df.loc[:33, :]
-df2 = df.loc[34:66, :]
-df3 = df.loc[67:99, :]
+def updatetable():
+    while True:
+        elem = ""
 
-print(df)
-print(df1)
-print(df2)
-print(df3)
+        #loop prevents crashing due to the old version of reddit loading
+        while not elem:
+            browser = webdriver.Chrome(executable_path=r'C:\Users\jacka\Downloads\chromedriver_win32\chromedriver.exe')
+            browser.get("https://www.reddit.com/")
+            elem = browser.find_elements_by_css_selector("a[data-click-id='subreddit']")
 
-browser.close()
+
+        objectkey = 'outputs.csv'
+        bucketname = 'popularsubs'
+        #reading and converting the .csv file in the s3 bucket to a dataframe
+        s3 = boto3.client('s3', aws_access_key_id='AKIAIZSXT33Y3CVYI37A', aws_secret_access_key='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')
+        read_file = s3.get_object(Bucket=bucketname, Key=objectkey)
+        df = pd.read_csv(read_file['Body'], index_col= False)
+
+        counter = 0
+        while counter < 50:
+            e = str(elem[counter].get_attribute("href"))
+            e = e.replace("https://www.reddit.com/r/", "")
+            e = e[:-1]
+
+            if e in df['Subreddit'].values:
+                df.loc[df['Subreddit'] == e, 'Appearances'] += 1
+            else:
+                df = df.append({'Subreddit': e, 'Appearances': 1}, ignore_index=True)
+
+            print(e)
+            # because there are 2 html tags of the same subreddit name, we have to increment by 2 each time.
+            counter = counter + 2
+
+
+        df.sort_values(by='Appearances', ascending=False,  inplace=True)
+        # resets the indexes to display rankings correctly.
+        df.reset_index(drop=True, inplace=True)
+        #writing to the .csv file in the s3 bucket
+        bytes_to_write = df.to_csv(None, index=False).encode()
+        fs = s3fs.S3FileSystem(key='AKIAIZSXT33Y3CVYI37A', secret='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')
+        with fs.open('s3://popularsubs/outputs.csv', 'wb') as f:
+            f.write(bytes_to_write)
+
+        # after writing the data to the csv, the index is set to start at 1 instead of 0, for design purposes.
+        df.index = np.arange( 1, len(df) + 1)
+
+        global df1, df2, df3
+        df1 = df.loc[:33, :]
+        df2 = df.loc[34:66, :]
+        df3 = df.loc[67:99, :]
+
+        print(df)
+        print(df1)
+        print(df2)
+        print(df3)
+
+        browser.close()
+        time.sleep(10)
+
 
 app = Flask(__name__)
 @app.route('/')
 def index():
     return render_template("Pop.html", dataframe1 = df1, dataframe2 = df2, dataframe3 = df3, )
+
+threading.Thread(target=updatetable).start()
+
 if __name__ == "__main__":
     app.run(debug=False)
 
 
 
 
-#top 50, then hit "more"
+
