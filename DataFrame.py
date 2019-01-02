@@ -4,9 +4,9 @@ import pandas as pd
 import numpy as np
 import time
 import threading
-from io import StringIO
 import boto3
 import s3fs
+from keys import *
 
 
 
@@ -24,7 +24,7 @@ def updatetable():
         objectkey = 'outputs.csv'
         bucketname = 'popularsubs'
         #reading and converting the .csv file in the s3 bucket to a dataframe
-        s3 = boto3.client('s3', aws_access_key_id='AKIAIZSXT33Y3CVYI37A', aws_secret_access_key='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')
+        s3 = boto3.client('s3', aws_access_key_id=awsacesskey, aws_secret_access_key=awssecretkey)
         read_file = s3.get_object(Bucket=bucketname, Key=objectkey)
         df = pd.read_csv(read_file['Body'], index_col= False)
 
@@ -49,7 +49,7 @@ def updatetable():
         df.reset_index(drop=True, inplace=True)
         #writing to the .csv file in the s3 bucket
         bytes_to_write = df.to_csv(None, index=False).encode()
-        fs = s3fs.S3FileSystem(key='AKIAIZSXT33Y3CVYI37A', secret='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')
+        fs = s3fs.S3FileSystem(key=awsacesskey, secret=awssecretkey)
         with fs.open('s3://popularsubs/outputs.csv', 'wb') as f:
             f.write(bytes_to_write)
 
