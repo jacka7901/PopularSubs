@@ -10,7 +10,6 @@ import os
 from selenium.webdriver.chrome.options import Options
 
 
-
 def updatetable():
     while True:
         elem = ""
@@ -22,7 +21,7 @@ def updatetable():
             chrome_options.add_argument('--disable-gpu')
             chrome_options.add_argument('--no-sandbox')
             chrome_options.add_argument('-- headless')
-            browser = webdriver.Chrome(executable_path= os.environ['CHROMEDRIVER_PATH, chrome_options=chrome_options'])
+            browser = webdriver.Chrome(executable_path= os.environ['CHROMEDRIVER_PATH'], chrome_options=chrome_options)
             #browser = webdriver.Chrome(executable_path=r'C:\Users\jacka\Downloads\chromedriver_win32\chromedriver.exe')
             browser.get("https://www.reddit.com/")
             elem = browser.find_elements_by_css_selector("a[data-click-id='subreddit']")
