@@ -34,7 +34,7 @@ s3fs==0.2.0
 s3transfer==0.1.13
 selenium==3.13.0
 six==1.11.0
-urllib3==1.23
+urllib3==1.26.5
 w3lib==1.19.0
 Werkzeug==0.14.1
 xlrd==1.2.0
